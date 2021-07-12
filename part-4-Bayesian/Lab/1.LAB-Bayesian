@@ -1,0 +1,14 @@
+Bayesian Networks
+
+1- Download the files of the DDoS dataset (both test and train).
+	All files have 10000 instances, and their names indicate N(ormal)-A(ttack) distribution.
+
+2- Open weka and configure the test to use the supplied set DDoS_test
+
+3- Run NaiveBayes for each of the DDoS_train datasets.
+
+	WHICH TRAIN DATASET HAD THE BEST RESULT? WHY?
+
+4- Run BayesNet with the 3 train datasets. The results are more similar. 
+
+	WHAT IS THE CAUSE FOR SUCH BEHAVIOR?

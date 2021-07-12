@@ -1,0 +1,24 @@
+Association Rules
+
+1- Open the file transactions.arff on weka.
+	This is a simple file that has examples of transactions that should be tested to find the frequent itemsets.
+	It has 12 attributes with boolean values indicating this item was present in the transaction.
+
+2- Go to Associate tab and run Apriori on this dataset.
+	How many rules were created?
+
+3- Open the algorithm parameters (click on 'Apriori -N 10..') and change the parameter 'lowerBoundMinSupport' to 0.8 and run it again.
+	How many rules were created this time? Why?
+	What will happen if we increase by 0.1 again (making Minimum support = 0.9)?
+
+4- Even with this modification in the parameters, the rules created seem dull.
+	e.g
+	1. J=FALSE 10 ==> I=FALSE 10    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	2. I=FALSE 10 ==> J=FALSE 10    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	3. C=FALSE 8 ==> I=FALSE 8    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	4. C=FALSE 8 ==> J=FALSE 8    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	Rule 1 and 2 are the exact same thing.
+	Do you imagine what will happen if we use lowerBound=0.3, upperBound=0.5 and numRules=100 this time?
+
+5- You can play with the dataset votes.arff that is packaged together with WEKA.
+	The .arff file has the description of the dataset.

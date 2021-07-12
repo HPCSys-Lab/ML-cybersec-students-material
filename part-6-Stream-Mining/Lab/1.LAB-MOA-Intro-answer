@@ -1,0 +1,68 @@
+7- We are going to run an example with an .arff file now. Go back to the GUI and open the 'Configure task' window.
+	Change the task to EvaluatePrequential. It is very similar to EvaluateInterleaveTestThenTrain, but has an addition.
+	Click edit on the stream parameter.
+	Select the first option 'class moa.streams.ArffFileStream'
+	Click browse and select your desired .arff file. Select kyoto-moa.arff, it is the same as the 90-10 dataset from the first Lab.
+	Since this dataset is very small, we have to change our sampleFrequency. Change it to 1.000
+	Insert a file to be used as the outputPredictionFile. Suggestion: Put something that reminds the algorithm and put it on the Lab folder.
+	
+	If you want you can also run from the terminal. Below there is an example of task configuration.
+	Remember to edit YOUR_PATH.
+	It might be a good idea to add a dumpFile (-d PATH/file)
+	"EvaluatePrequential -l bayes.NaiveBayes -s (ArffFileStream -f YOUR_PATH/ml-cybersec/part-6-Stream-Mining/Lab/kyoto-moa-2.arff) -e (BasicClassificationPerformanceEvaluator -p -r) -f 1000 -o YOUR_PATH/ml-cybersec/part-6-Stream-Mining/Lab/predNB.pred"
+
+	Change the file to kyoto-moa-2.arff and rerun the experiment.	
+	
+	Questions: 
+	1) Why the first experiment shows 100% accuracy until the very last chunk and then it drops to 92% while the second experiment has smaller and different values on all chunks? HINT: Check the .arff files.
+	2) Which result is better?
+	3) Check the pred file. Is it useful?
+
+	***
+	Answers:
+	1) If you look at the file, you will see that kyoto-moa.arff is ordered. It has the 9000 N examples followed by 1000 A examples. This means that the first 9 chunks had to classify and train only normal examples. And the final chunk had to classify and train only A examples. This shift is one of the challenges in streaming scenario, as there is no warning and concept suddenly changes.
+
+	2) Judging by the accuracy, achieved with this data, at first glance, the first experiment seems better. However, analysing the recall (a we have been emphasising on this course) example 2 has higher recall. 
+		
+	3) Pred file is important because it provides a simple way to check which instances got missclassified (when there are different numbers on a line).
+
+----------------------------------
+
+8- Open WEKA and run NaiveBayes with this same file (use CV-10).
+	Questions:
+	1) How much is the recall for the class 'A'? How does it compare to the recall for class 'A' on the MOA-experiment (It is depicted as class 1 on MOA)? 
+	1.1) Why is there such a difference?
+	***
+	Answers:
+	1) 91%. WEKA recall is much higher than the 33% recall achieved by MOA.
+	1.1) This experiment has a flaw on how the dataset was built. But first it is important to remember something about the shift in focus and perspective when going from traditional ML to Stream methods. 
+	Traditional ML methods use the full dataset and go through the data many times, thus the order of the examples are not important.
+	Stream methods, on the other hand, focus on accurately modeling the characteristics of the data flow, thus the order is important.
+	For example, most networks will have peak usage during work hours and get almost idle during the period from 02:00 am to 06:00 am.
+	On traditional methods this characteristic is irrelevant. For stream methods this might be an useful information and can help in detecting malicious behavior. e.g the model is following the 'decay' in bandwidth usage and then suddenly detects a burst of bandwidth usage, indicating an anomaly.
+
+		
+
+----------------------------------
+
+9- On MOA, change the learner to HoeffdingTree. Rerun the experiment.
+	Questions: 
+	1) What is the behavior of the Recall for class 1?
+	2) Based on this observations, can you imagine what would happen with a bigger input file?
+	***
+	Answers:
+	1) Recall starts almost ~1% and steadily grows to ~30%.
+	2) As one can imagine, the longer we keep feeding this algorithm, the better it gets in correctly detecting attacks. Being honest, 10.000 instances is nothing to something supposed to work with endless streams of data. If you don't believe that it gets better, you can check the results with the original dataset that can be downloaded from https://drive.google.com/file/d/1UAxmt7I6A0GzOZ1CsTgZmKrr-LMJZZtR/view?usp=sharing
+	The recall for both classes gets higher than 90%. The recall for A class ends in 98%.
+	
+		
+
+----------------------------------
+
+10- Change the learner to HoeffdingAdaptiveTree. Rerun the experiment.
+	Question: What happened to the class 1 recall and precision? What caused this?
+	***
+	Answer: The recall starts with the same behavior as the previous experiment, however it grows faster and finishes at 38% instead of 30%.
+	The difference is that AdaptiveTree uses the ADWIN Change Detector. This new addition monitors the tree branches and when the accuracy of one branch goes below a threshold it resets the branch for a new one that is more accurate for the current data. In essence ADWIN enforces the model to be updated to the current data distribution by erasing branches built using past data.
+		
+

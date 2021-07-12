@@ -1,0 +1,98 @@
+MOA Introduction
+
+1- Open MOA - run the .sh on /bin
+
+2- The first thing you will notice is that MOA does not have a preprocess tab. Only tabs for the different types of learners.
+
+3- Run a simple example to get a feel.
+	On Classification tab click Configure on the top left corner.
+	On the top selector, select EvaluateInterleavedTestThenTrain.
+	For the learner, click Edit and select NaiveBayes.
+	For the stream, we'll use RandomRBFGenerator.
+	For the evaluator, we can use BasicClassificationEvaluator. But we want to check the precisionPerClass and recallPerClass checkboxes.
+	Click Run on the top right corner.
+
+	Notice how the statistics on the bottom left corner are being updated.
+	It should be finished after 2~3 minutes.
+	The table shows the results for every 100.000 examples that have been processed.
+
+		WHY THE EVALUATIONS ARE PRESENTED IN A PARTIAL MANNER INSTEAD OF A 'FINAL EVALUATION' LIKE WEKA?
+		In an endless stream scenario, there will be no Final Evaluation, therefore the only way is to show partials.
+		Note, however, that Current Value (on the bottom left) means the value for all data so far. While Mean is the mean of the values presented so far.
+		If one wants to look deeper into these cases, he/she can change the sampleFrequency of the task. This will give results in a smaller/bigger interval. You can change it to 50.000 examples and run again if you want, you will notice that the table has twice the amount of rows and the rows that are multiples of 100.000 are equal to the previous experiment.
+	
+	There is a column called 'model serialized size (bytes)' among them. Find it and check how the values behaved during the execution.
+	As you can see, the model size was the same during all the execution.
+	This is the result from the requirement 2 (Use limited amount of memory).
+
+
+
+4- Run another example with a tree.
+	On Classification tab change the learner from NaiveBayes to Hoeffding Tree.
+	This time we will shorten the experiment. Back to the 'Configure task' window, change instanceLimit to 10.000.000
+	Run it.
+
+		WHY NAIVEBAYES KEEPS THE SAME NAME BUT THE DECISION TREE ALGORITHM CHANGED FROM J48 TO HOEFFDING TREE?
+		If you think about the J48 algorithm, you need to know the whole dataset in advance to calculate the Entropy, Gain, etc. But this is a bad assumption if the stream is potentially endless, so the Hoeffding Tree is an algorithm developed specifically for the stream scenario, where it is not possible to know the whole dataset beforehand and you have to make decisions with a very limited amount of examples.
+
+
+
+
+5- One good thing about MOA, is that you can easily run it through the terminal. Open a terminal and navigate to your moa folder.
+	Back on the GUI, just besides the Configure button you can see a TextBox.
+	You might have noticed that it changes accordingly to the configurations we set on the 'Configure task' window.
+	Copy all text on this TextBox.
+	Go back to the terminal, all you have to do is call Java, passing the moa.jar inside the lib folder as classpath and running the class moa.DoTask while putting the line from the GUI between quotes after the moa.DoTask.
+	Example:
+		java -cp lib/moa.jar moa.DoTask "EvaluateInterleavedTestThenTrain -l (trees.HoeffdingTree -c 0.0) -s generators.RandomRBFGenerator -e (BasicClassificationPerformanceEvaluator -p -r) -i 300000 -f 50000"
+
+	(I've changed the -i parameter to 300000 and the -f to 50000 to make it shorter and fit your screen. They are respectively the instanceLimit and sampleFrequency.)
+
+	It seems worse to check the results this way, right?
+	We can improve it by outpiting he results to a dumpFile.
+	Using the example cmd line above, add '-d /home/user/pathToYourMOAFolder/dumpClassification.csv' between the 50000 and the closing quote.
+	The results were printed on the terminal, but check the contents of the dumpClassification.csv file.
+	It should be relatively straightforward to process csv files.. e.g. 'head -n 1 dumpClassification.csv | cut -d, -f7,8 && tail -n 1 dumpClassification.csv | cut -d, -f7,8'
+	
+6- (Requires some commands that are not available in Windows systems. If you have Windows, then go to exercise 7) 
+We are going to simulate an easy way to compare experiments through terminal (remember ir can all be automated through bash scripts later)
+	Rename dumpClassification.csv to dumpHT.csv
+	Change the last comand -l argument from (trees.HoeffdingTree -c 0.0) to bayes.NaiveBayes
+	Change the -d argument from ..../dumpClassification.csv to ..../dumpNB.csv
+	Run it.
+
+	You should have 2 .csv files on your folder now.
+	run the following command on the terminal:
+
+	for i in *.csv; do echo $i; head -n 1 $i | cut -d, -f7,8 && tail -n 1 $i | cut -d, -f7,8; echo ""; done;
+
+	Now you can compare both experiments Accuracy.. you can add more fields to be compared on the -f parameter from the cut command, if you wish.
+	Remember this is a simple example and you have plenty of options going forward.
+
+7- We are going to run an example with an .arff file now. Go back to the GUI and open the 'Configure task' window.
+	Change the task to EvaluatePrequential. It is very similar to EvaluateInterleaveTestThenTrain, but has an addition.
+	Click edit on the stream parameter.
+	Select the first option 'class moa.streams.ArffFileStream'
+	Click browse and select your desired .arff file. Select kyoto-moa.arff, it is the same as the 90-10 dataset from the first Lab.
+	Since this dataset is very small, we have to change our sampleFrequency. Change it to 1.000
+	Insert a file to be used as the outputPredictionFile. Suggestion: Put something that reminds the algorithm and put it on the Lab folder.
+	
+	If you want you can also run from the terminal. Below there is an example of task configuration.
+	Remember to edit YOUR_PATH.
+	It might be a good idea to add a dumpFile (-d PATH/file)
+	"EvaluatePrequential -l bayes.NaiveBayes -s (ArffFileStream -f YOUR_PATH/ml-cybersec/part-6-Stream-Mining/Lab/kyoto-moa-2.arff) -e (BasicClassificationPerformanceEvaluator -p -r) -f 1000 -o YOUR_PATH/ml-cybersec/part-6-Stream-Mining/Lab/predNB.pred"
+
+	Change the file to kyoto-moa-2.arff and rerun the experiment.	
+	
+	Questions: 
+	1) Why the first experiment shows 100% accuracy until the very last chunk and then it drops to 92% while the second experiment has smaller and different values on all chunks? HINT: Check the .arff files.
+	2) Which result is better?
+
+8- Open WEKA and run NaiveBayes with this same file (use CV-10).
+	Question: How much is the recall for the class 'A'? How does it compare to the recall for class 'A' on the MOA-experiment (It is depicted as class 1 on MOA)? Why is there such a difference?
+
+9- On MOA, change the learner to HoeffdingTree. Rerun the experiment.
+	Question: What is the behavior of the Recall? Based on this observations, can you imagine what would happen with a bigger input file?
+
+10- Change the learner to HoeffdingAdaptiveTree. Rerun the experiment.
+	Question: What happened to the class 1 recall and precision? What caused this?

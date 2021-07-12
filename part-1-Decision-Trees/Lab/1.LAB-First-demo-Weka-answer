@@ -1,0 +1,10 @@
+EXERCICE 1: Looking at the graphics for the four attributes, do you think there is an attribute that gives more information for the problem?
+When the Outlook is Overcast, the answer is always to play.
+This indicates that Outlook is a good attribute that gives good information. If that is the case or not, we will see on the tree module.
+
+EXERCISE 2: Is Macine Learning this easy? What are some possible reasons for this result?
+There are a number of variables that can influence the results. It could be that tree models are indeed better suited to build models for this data; it could be that somehow the default parameters are the optimal parameters for this data; it could be that this data is very straight-forward to model and any other algorithm will give the same result.
+
+EXERCISE 3: Can we say that J48 is a better algorithm than NaiveBayes? 
+NO! We can say that J48 has performed better tha NaiveBayes with this data, but there is a catch.
+Have you noticed how every possible explanation is centered around data? Basically, this means that data is very important, and should be treated with care. But in reality, this results are caused by another phenomena, called Overfitting.

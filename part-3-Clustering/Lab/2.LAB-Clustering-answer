@@ -1,0 +1,23 @@
+k-Means
+
+1- Go to the Cluster tab. Choose the algorithm SimpleKMeans.
+	Make the same modification as the IBk to disable automatic normalization.
+
+2- Set 'Classes to clusters evaluation'
+
+3- Repeat the process for files 'gendata-example-v1.arff' and 'gendata-example-v2.arff'
+	Is there any difference in the result?
+
+You can see that the centroid for the clusters are different, however the distribution of instances among clusters is equal.
+
+
+
+4- Do you think the clustering performance will suffer the same effect as the kNN(IBk) if you preprocess the dataset? Why?
+
+Yes, it will. Both clustering and kNN are distance based algorithms. Therefore, if an attribute that isn't important has a bigger weight in the distance, it will just get in the way. Here lies the importance of the domain specialist, only someone with domain knowledge will be able to fully understand the intricacies of the data. As on the previous example, by increasing the weight of one variable we were able to achieve a better result. It was possible because the "domain specialist" (the person who generated the dataset in this case) knew that the attribute with more weight was in fact not related to the class.
+
+5- Even preprocessing the dataset the performance of k-Means was not as good as kNN, why?
+
+Although both are distance based, their goal is different. kNN tries to find the most similar instances and by default the k parameter is equal to 1. Which means that the closest instance is enough to classify. On the other hand, k-Means tries to group instances starting from random points until they converge. There is the problem that k-Means might be stopping at a local maximum, which means that given the starting centroids, it achieves the best configuration, but that position might be flawed to begin with.
+
+However, lets look at the clusters and classes assigned. Altough the error is high (38%) all our c1 instances are inside the same cluster (Cluster 1). This means that, with proper pre-processing we were able to detect all our target classes, but as a side effect we got a lot of False Positives. It might be solved by preprocessing more, or this model is just not the best suited option to this data.

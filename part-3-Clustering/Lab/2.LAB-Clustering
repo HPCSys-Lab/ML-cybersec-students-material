@@ -1,0 +1,14 @@
+k-Means
+
+1- Go to the Cluster tab. Choose the algorithm SimpleKMeans.
+	Make the same modification as the IBk to disable automatic normalization.
+
+2- Set 'Classes to clusters evaluation'
+
+3- Repeat the process for files 'gendata-example-v1.arff' and 'gendata-example-v2.arff'
+	Is there any difference in the result?
+
+4- Do you think the clustering performance will suffer the same effect as the kNN(IBk) if you preprocess the dataset? Why?
+
+5- Even preprocessing the dataset the performance of k-Means was not as good as kNN, why?
+

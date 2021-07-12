@@ -1,0 +1,19 @@
+Decision Trees
+
+1- Download the files kyoto_test and kyoto_train*.
+	All files have 10000 instances, and their names indicate N-A distribution.
+
+2- Open weka and configure the test to use the supplied set kyoto_test
+
+3- Run J48 for each of the kyoto_train datasets.
+
+4- Based on the results answer the following questions:
+	a) Which training data gives the best result?
+	b) Is accuracy the best way to measure results in cybersecurity?
+	c) Based on Precision and Recall, which is the best?
+	d) Is there an explanation why a higher precision yields high false positives and a higher recall yield high false negatives?
+	
+5- Let's go back to our previous Weather exemple. Make the first round of calculations for the Gain, SplitInfo and GainRatio for the 4 attributes.
+	a) Which attribute has the biggest Gain? Is it the same we thought about in the first example with weka?
+	b) Which attribute has the biggest SplitInfo? What is better a higher or smaller SplitInfo? 
+	c) What characteristic in the data distribution creates a small SplitInfo?

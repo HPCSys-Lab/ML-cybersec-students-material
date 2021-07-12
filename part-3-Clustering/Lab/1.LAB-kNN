@@ -1,0 +1,49 @@
+KNN
+
+1- Download the file gendata-exemple-v1.arff and open it on WEKA.
+	This file has 500 instances and was generated with a Random Generator.
+	It has 4 numeric attributes.
+
+2- Open the Classify tab and Choose the IBk classifier. Configure as follows:
+	click on the textbox ('IBk -K 1 -W 0 ...') in order to modify the parameters.
+	Do the same on the nearestNeighbourSearchAlgorithm field, click on 'LinearNNSearch ..'
+	click on 'Euclidean Distance -D	...'
+	Finally, turn 'dontNormalize' to True
+	Close all windows.
+
+3- Set Cross-Validation to 5 and run the experiment.
+
+4- Open the file gendata-exemple-v2.arff and execute the experiment with the same configuration (If you didn't change the algorithm you won't have to configure again).
+
+5- Go back to preprocess tab and run a normalization filter on this dataset.
+	On the first panel click on Choose.
+	Navigate to filters -> unsupervised -> attribute -> Normalize.
+	Click Apply
+	We are going to save this normalized version of the dataset.
+	Click on Save on the Upper right corner, name as you wish. Suggstion: gendata-normalized.arff
+
+6- Now that all attributes have the same weight, run the IBk for the third time.
+
+7- Analyzing the confusion matrix, can you tell which dataset has performed better? What is your first explanation?
+	First dataset is the worst, third is the best.
+	The only difference in them is how data is given as input to the algorithm.
+	Head back to preprocess and try to find differences.
+	
+	
+WHY THE THIRD DATASET HAS BETTER PERFORMANCE IF EACH ATTRIBUTE MAINTAINS THE SAME VALUE-CLASS DISTRIBUTION AMONG ALL OF THEM?
+	
+
+8- Can we improve the result even more with preprocessing?
+	If you look at the class distribution for all attributes on the Preprocess tab, is there any attribute that you can imagine to be better at describing the class?
+	Let's try to increase the weight of this attribute when we calculate the distance.
+	To do that, we have to apply another filter. This one is called MathExpression.
+	Choose -> filters -> unsupervised -> attribute -> MathExpression.
+	This filter applies the desired math expression to the selected attributes.
+	Right now the expression is the normalization of the attribute, but we want to increase the weight. Thus, we should change to something like 'A*100'. This means multiply the attribute value by 100 for all instances in this dataset.
+	We need to change another parameter to assure it will only be applied to the attribute we want. In the field ignoreRange we should add the index of the other attributes. e.g. If you think that attribute a2 is the best at describing the class, fill ignoreRange with 1,2,4. Adjust accordingly to your previous choice.
+	Click OK and then Apply to apply the filter on the dataset.
+	Finally, run IBk again.
+
+HAS THE RESULT IMPROVED? WHY?
+
+

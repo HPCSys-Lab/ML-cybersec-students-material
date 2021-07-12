@@ -1,0 +1,22 @@
+Association Rules
+
+2- Go to Associate tab and run Apriori on this dataset.
+	How many rules were created?
+10 rules were created. 
+
+3- Open the algorithm parameters (click on 'Apriori -N 10..') and change the parameter 'lowerBoundMinSupport' to 0.8 and run it again.
+	How many rules were created this time? Why?
+This time, only 7 rules were created. The reason is that increasing the minimum support by just 0.1 means that the rule has to appear on at least 80% of the instances.
+If increased to 0.9 only 2 rules will be shown. The ones which appeared in 100% of instances.
+
+4- Even with this modification in the parameters, the rules created seem dull.
+	e.g
+	1. J=FALSE 10 ==> I=FALSE 10    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	2. I=FALSE 10 ==> J=FALSE 10    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	3. C=FALSE 8 ==> I=FALSE 8    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	4. C=FALSE 8 ==> J=FALSE 8    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+	Rule 1 and 2 are the exact same thing.
+	Do you imagine what will happen if we use lowerBound=0.3 and upperBound=0.5 this time?
+
+Only rules that appeared in at least 3 instances and at most 5 instances will appear. The maximum limit is 100.
+You can try for different values, but remember that WEKA shows the most rules with the maximum support first.

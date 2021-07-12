@@ -1,0 +1,18 @@
+Bayesian Networks
+
+1- Download the files of the DDoS dataset (both test and train).
+	All files have 10000 instances, and their names indicate N(ormal)-A(ttack) distribution.
+
+2- Open weka and configure the test to use the supplied set DDoS_test
+
+3- Run NaiveBayes for each of the DDoS_train datasets.
+
+	WHICH TRAIN DATASET HAD THE BEST RESULT? WHY?
+
+All datasets achieved a very similar (and high) Recall rate, which means that DDoS instances were identified as attacks or, in other words, true positives.
+However, the train_99_1 had a higher Precision, which is caused by the class imbalance like in the previous example with Kyoto dataset. When the training model had higher amount of attack instances, the probability of being an attack is increased.
+We are combining a dataset that has DDoS attacks with a probabilistic model. One characteristic of a DDoS attack is that attack flows have very short duration, however, this can also be present on normal flows. The probabilistic nature of the model can identify the attacks very well, but ends up generating a lot of False Positives because of the assumption of attribute independence.
+	
+4- Run BayesNet with the 3 train datasets. The Precision rate is more similar. What is the cause?
+	
+It is based on the assumptions of the algorithms. On Naive, it is assumed that attributes are independent of each other. This causes a simplification of the probabilistic calculation. BayesNet on the other hand creates a Bayesian Network which has dependency among the attributes, increasing the prediction performance. Note however, that the 99-1 training set had the worst Recall of the three. When using Naive, it had the best probabilistic model because the smaller ratio of attack instances compensated for the simplicity of the model. In this case, the model is already capable of distinguishing between attack and normal, however, having less attack instances to train causes a decrease in the probability of being an attack.

@@ -1,0 +1,42 @@
+	a) Which training data gives the best result?
+
+Based on accuracy alone, one can say that the best result is achieved with the 90/10 dataset, as it achieves 98% accuracy.
+
+	b) Is accuracy the best way to measure results in cybersecurity?
+
+So, if you are the manager of a bank, would you prefer detecting all the frauds at the cost of wasting resources investigating non-fraud transactions or letting some of them go but guarantee every transaction you detect is indeed a fraud?
+There are many trade-offs in here, and it will vary from case to case.
+
+	c) Based on Precision and Recall, which is the best?
+
+Higher Recall (high False Positives) is achieved with 50/50
+Higher Precision (high False Negatives) is achieved with 99/1
+
+	d) Is there an explanation why a higher precision yields high false positives and a higher recall yield high false negatives?
+
+Yes, this is caused by the unbalanced datasets (either train or test).
+Ideally you want to train your algorithm with the proportion between classes as close to real as possible.
+As you can see, having more attack instances during training will make the model more likely to classify attacks. As a consequence, it will be better at identifying the attack instances, but will also cause a lot of False Positives.
+The opposite happens when we use the 99/1, when our test data is 95/5. With less attack instances during the train phase, the model is less likely to classify attacks. Thus causing the good precision (every time I say it is an attack it most likely is) but has high False Negative.
+
+If the goal is to predict the biggest number of attacks, the model with the lowest accuracy becomes the best one.
+
+
+
+
+
+
+
+step 5
+
+	a) Which attribute has the biggest Gain? Is it the same we thought about in the first example with weka?
+
+Outlook. Yes, it is the same.
+
+	b) Which attribute has the biggest SplitInfo? What is better a higher or smaller SplitInfo? 
+
+Also Outlook. Smaller SplitInfo
+
+	c) What characteristic in the data distribution creates a small SplitInfo?
+
+Binary attributes that are distributed evenly among the classes have SplitInfo 1. If the attribute has more than 2 values it becomes more complicated but, as a general rule, attributes that have a bias towards one of the classes have smaller SplitInfo.

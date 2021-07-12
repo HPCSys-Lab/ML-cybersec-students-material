@@ -1,0 +1,60 @@
+Attribute Selection
+
+1- Open glass.arff dataset
+
+
+2- Go to Classify tab, set test to CV-10 and run J48.
+	What is the ccuracy of the generated model? 
+ANS: 66.8%
+
+
+3. There are some attributes that can be removed to improve the result, can you find which ones?
+	HINT: You could try removing one attribute at a time and testing again. But imagine how long an exhaustive search would take (2⁹ = 512 possible subsets). The Select Attributes tab helps in this case.
+
+
+4. Select the Wrapper Subset Evaluator.
+	Open the parameter window (click on WrapperSubsetEval -B weka...').
+	Note that it is using ZeroR classifier. We want to work with J48 and 10 folds CV, so change it accordingly and close the window.
+	We also want the BestFirst search method.
+	Run the wrapper method, check which are the selected attributes and how many subsets were evaluated.
+
+ANS: RI, Na, Mg, Al, K, Ca. 47 subsets
+
+	Go back to Preprocess tab and remove all but the selected attributes.
+	Go to classify and run J48 again.
+	Any impact on the results?
+
+ANS: Yes, acc is 72.4% now.
+
+
+
+5- Good, it is better. Let's try changing some BestFirst parameters. Undo the removal of attributes (or re-open the glass.arff file) and go back to Select Attributes tab. Open BestFirst parameters and change searchTermination to 1.
+	Run the wrapper method, check which are the selected attributes and how many subsets were evaluated.
+	Are there differences between the attributes that were selected (comparing searchTermination 1 and 5)? If yes, can you tell why?
+	Which version gives the best result with the J48?
+
+ANS: RI, Al, Ca. 30 subsets. There are a lot less attributes with smaller termination. It happens because the algorithm gives up quicker when it doesn't find a improving subset. This resulted in 69.6% acc, which is smaller. The reason for the decrease is that the subset evaluator selected is not as good as the previous, as the evaluator had to choose from a smaller sample.
+
+
+
+6- Ok, it is not good to use a smaller SearchTermination. But we can still do better than the first time. Undo the removal of attributes (or re-open the glass.arff file) and go back to Select Attributes tab.
+	Open BestFirst parameters and change its direction to Backward and searchTermination back to 5.
+	Run the wrapper method, check which are the selected attributes and how many subsets were evaluated.
+
+ANS: RI, Na, Mg, Ca, Ba, 71 subsets
+
+	Are there differences between the attributes that were selected? If yes, can you tell why?
+
+ANS: Yes. This time the evaluator tried almost double the amount of subsets than previously. By using a backward direction it starts from the full subset and removes attributes; by using forward it starts with a single attribute and tries to add more. The best case will be different for each dataset, but it is always good to have a good idea of the data before applying it. Note how the Al attribute is not present on the backwards and is present on both forward searches. 
+
+
+
+7- We have been using the whole dataset so far. What happens if we use CV-10 on the attribute selection?
+	Change Attribute Selection Mode to Cross-Validation of 10 folds.
+	Run the wrapper method, check which selected attributes were present on the most folds?
+
+ANS: RI, Mg and Ba, let's call it BAS (Best Attribute Subset)
+
+	Given this information, which are the attributes you are definitely not using? Which are the attributes you have to test and see? How many tests will you perform? How does it compare to the 512 previously thought?
+
+ANS: Not using Al, Si, K and Fe. In doubt about Na and Ca. Will need 4 tests to check (BAS alone, BAS + Na, BAS + Ca, BAS + Na + Ca). 2² vs 2⁹.

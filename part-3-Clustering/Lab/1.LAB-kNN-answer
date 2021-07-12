@@ -1,0 +1,20 @@
+7- Analyzing the confusion matrix, can you tell which dataset has performed better? What is your first explanation? HINT: Both datasets were build from the same data.
+
+	Comparing class distribution on all attributes you can see that attribute a0 has the class c1 instances condensed on the smaller values on all datasets. All other attributes seem to have it distributed evenly.
+	Since this happens on all datasets, attibute a0 should perform equally on all datasets.
+	
+	WHY THE THIRD DATASET HAS BETTER PERFORMANCE IF EACH ATTRIBUTE MAINTAINS THE SAME VALUE-CLASS DISTRIBUTION AMONG ALL OF THEM?
+	HINT: To help in answering this question. Run J48 with all three datasets. What is the result? What can you infer from it?
+
+To answer this we always have to consider many variables, but it is usually better considering the data and the bias of the algorithm.
+You have to think on how a tree is built with J48. It uses the GainRatio to decide which attribute is better.
+IBk on the other hand, uses euclidean distance to compare the similarity of the nearest neighbour.
+For the first algorithm, the scale of the attribute values is irrelevant. To the second it can make a huge difference.
+When you normalize the attributes, you create equality in weights. If the algorithm performs better than originally, it means that the previous attribute configuration were giving more weight to 'irrelevant' or worse attributes.
+
+
+8- Attribute a0 is the best.
+
+	HAS THE RESULT IMPROVED? WHY?
+
+If you chose the righ attribute, it should have improved. The reason is that attribute a0 has most of the instances from the c1 class on the lowest values. When we increase the range of this attribute we also increase the weight it has on the distance calculation. In other words, the distance ends up being simply the difference in this attribute between instances. Note however that it still hard to classify every instance correct since there is a range with mixed classes and the label, at this point, depends mostly on this attribute. To be completely fair, if the value of this attribute is smaller than ~2, then the other attributes can influence the result too.

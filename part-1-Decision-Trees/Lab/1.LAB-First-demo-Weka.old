@@ -1,0 +1,71 @@
+Introduction to Weka
+
+1- Download weka from: https://waikato.github.io/weka-wiki/downloading_weka/
+
+2- Unzip and run it
+
+3- Open the Explorer window.
+	You have many tabs, but most of them will be disabled until you load a dataset.
+	Weka comes with many sample datasets, we will be using one of them for our first endeavour.
+
+4- Now Open a file.
+	Navigate to weka installation directory through the file explorer and change into 'data' directory.
+	You will se a lot of arff files.
+	Open 'weather.nominal.arff'.
+
+5- Interface
+	Weka has a very straightforward interface.
+	The panel on the left shows all the attributes from this dataset as well as some summary (# instances, # attributes, etc.)
+	Right now, you should be seeing 5 attributes. Usually the last one is the class attribute.
+	By default the first attribute is selected. If you select another, the information and graphics on the right panel will change.
+	You can see a summary of the selected attribute:
+		Missing is the number of instances in which this attribute is missing, hopefully you will always work with 0.
+		Distinct is the number of distinct values this attribute has among all instances. It works for both numeric and nominal.
+		Type indicates the type of attribute. e.g. numeric or nominal.
+		Unique shows the number and percentage of instances having a value for this attribute that no other instances have in the data.
+		At the table, you can see how many times each possible value appears in the data.
+		The graphics show the class* distribution among the current selected attribute.
+			*you can change the attribute to be other than the class, but class is selected by default.
+
+	EXERCICE 1: Looking at the graphics for the four attributes, do you think there is an attribute that gives more information for the problem?
+
+
+6- Go into the Classify tab.
+	On the topmost part of the panel, you can see a button that will allow you to select the classifier you want to use.
+	Classifiers are subdivided in their classes and types.
+	Right now we just want to quickly create a model and test it with the data.
+	Open the Trees subfolder and select J48.
+	Without changing any parameter, click start.
+	On the output panel you will have a lot of information: the data that was used, the final model the algorithm has created, the time it took to create and evaluate, etc.
+	For now we are interested in the last three parts -> Summary, Accuracy by class and Confusion Matrix.
+	On Summary you can see a lot of statistics, including the percentage of correctly classified instances.
+		This test achieved 100% accuracy, which means that the other information is not very useful.
+
+	EXERCISE 2: Is Macine Learning this easy? What are some possible reasons for this result?
+
+	Lets try another algorithm, select Bayes -> NaiveBayes, a probabilistic model and run it.
+		As you can see, the accuracy has droped to 92.8%. Now it is possible to see differences in the Accuracy by class.
+		As a quick note, if you saw the J48 model, you will notice that NaiveBayes presents it in a different way. We will go into detail later in this course.
+		If you check the confusion matrix you can tell what happened: a b class (Don't play) got classified as a (Play). 
+
+	EXERCISE 3: Can we say that J48 is a better algorithm than NaiveBayes? 
+
+	Now, have you noticed the panel just below the button we use to choose the Classifier? It says Test options.
+	We have been testing our models with the training set. Which means we use all 14 instances to train, and test if we can classify them correctly. This scenario couldn't be further than reality in Cybersec scenario, since you have to classify unseen instances.
+	There are some options to circunvent this.
+	The most obvious is having a train set and a test set (Supplied test set). This way, your test instances will be unknown for the model.
+	In case you don't have this luxury, you can split your dataset (Percentage split) in train and test. It will use the first X% to train.
+	Or, you can use a technique called Cross Validation. This technique will divide your dataset in n groups of instances.
+		For each group, train with the other n-1 instances and test with the group that was left. Keep the statistics and discard the model.
+		This technique ensures each instance is classified once while being unknown for the model that was built.
+		It gives a better approximation of a real world problem. The model presented is built with the whole dataset.
+
+	Let's try running J48 with a 3 -fold Cross Validation.
+		Can you see the difference in the predictive performance? It droped from 100% to 64.28%
+		This indicates that the previous test was, in fact, overfitted. Unless all you want is a model that describes the data, always use a technique that will test with instances that were not before by the model during training.
+
+	Both Cluster and Associate tabs are similar to Classify. If you want you can play around for a while with the weka standard datasets for now.
+
+
+	
+
