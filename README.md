@@ -1,7 +1,7 @@
 ## Module MCS 016 - Machine Learning for Cyber-Security & Artificial Intelligence
 
 
-#### Part 1 <E2><80><93> Fundamental concepts
+#### Part 1: Fundamental concepts
 
 * Introduction
     * Examples
@@ -41,7 +41,7 @@
 * Algorithms and implementation principles: Novelty detection
 * Implementation, and Example of application in cyber-security using MOA
 
-### Part 4 <E2><80><93> Data mining and machine learning for cyber-security
+### Part 4: Data mining and machine learning for cyber-security
 * Phases of knowledge data discovery
 * Pre-processing: normalization, binarization
 * Data types for cybersecurity: packets, flows, log files
@@ -53,7 +53,7 @@
 * Bagging
 * Boosting
 
-### Part 6 <E2><80><93> Tools
+### Part 6: Tools
 * An overview of tools
     * Tools for learning/testing techniques and algorithms (WEKA, MOA)
     * Deep learning frameworks (PyToch, TensorFlow, etc) 
